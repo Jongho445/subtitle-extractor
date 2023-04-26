@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "pnpm build && node packages/cli/dist/main/index.js",
+    "dev": "ts-node packages/cli/src/main/index.ts",
+    "start": "node packages/cli/dist/main/index.js",
     "build": "lerna run build"
   },
   "keywords": [],
