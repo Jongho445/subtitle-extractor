@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node packages/cli/index.ts"
+    "dev": "ts-node packages/cli/src/main/index.ts"
   },
   "keywords": [],
   "author": "",

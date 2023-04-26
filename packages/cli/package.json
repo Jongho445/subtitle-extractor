@@ -11,6 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^5.2.0",
+    "extractor": "workspace:*",
     "inquirer": "^9.2.0"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.3"
   }
 }
