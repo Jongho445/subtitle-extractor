@@ -2,7 +2,7 @@
   "name": "extractor",
   "version": "1.0.0",
   "description": "",
-  "main": "src/main/index.ts",
+  "main": "dist/main/index.js",
   "scripts": {
     "build": "tsc"
   },
