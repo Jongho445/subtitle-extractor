@@ -1,1 +1,3 @@
-export const hello = "hello";
+import SubtitleExtractor from "./SubtitleExtractor";
+
+export default SubtitleExtractor;

@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "common": "workspace:*",
     "extractor": "workspace:*",
     "inquirer": "^8.0.0"
   },

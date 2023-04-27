@@ -1,12 +1,6 @@
 import exec from "./exec";
-import constants from "../config/constants";
-
-interface SubInfo {
-  subIdx: number,
-  ext: string,
-  title: string,
-  rawStr: string
-}
+import {constants} from "common";
+import {SubInfo} from "../types";
 
 export default class FFmpeg {
 
