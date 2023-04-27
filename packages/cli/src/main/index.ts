@@ -1,8 +1,7 @@
 import fs from "fs-extra";
-import SubtitleExtractor from "extractor";
+import {SubtitleExtractor, SubInfo} from "extractor";
 import inquirer from "inquirer";
 import {Stats} from "fs";
-import {SubInfo} from "extractor/dist/main/types";
 import {constants} from "common";
 import path from "path";
 

@@ -1,3 +1,4 @@
 import SubtitleExtractor from "./SubtitleExtractor";
+import {SubInfo, ExecResult} from "./types";
 
-export default SubtitleExtractor;
+export {SubtitleExtractor, SubInfo, ExecResult};
