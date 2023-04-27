@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chalk": "^5.2.0",
     "extractor": "workspace:*",
     "inquirer": "^8.0.0"
   },
