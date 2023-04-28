@@ -1,4 +1,4 @@
-import {Answers, ResultInfo} from "../types";
+import {Answers} from "../types";
 import inquirer from "inquirer";
 import {constants} from "common";
 import fs from "fs-extra";
@@ -10,37 +10,15 @@ export default class PromptExecutor {
 
   private readonly extractor = new SubtitleExtractor();
   private pathStats: Stats | null = null;
-  private fileNames: string[] = [];
-  private filePaths: string[] = [];
-  private infosList: SubInfo[][] = [];
+  public fileNames: string[] = [];
+  public filePaths: string[] = [];
+  public infosList: SubInfo[][] = [];
 
-  async runPrompt() {
-    const result = await inquirer.prompt([
+  runPrompt() {
+    return inquirer.prompt([
       this.getInputQuestion(),
       this.getListQuestion()
     ]);
-
-    const answers = result as Answers;
-
-    const subIdx = Number(answers.subtitle.split(":")[0]);
-    return this.getResultInfos(this.fileNames, this.filePaths, this.infosList, subIdx);
-  }
-
-  private getResultInfos(fileNames: string[], filePaths: string[], infosList: SubInfo[][], subIdx: number): ResultInfo[] {
-    const resultInfos: ResultInfo[] = [];
-    for (let i = 0; i < fileNames.length; i++) {
-      const fileNameWithoutExt = fileNames[i].split(".")[0];
-      const ext = infosList[i][subIdx].ext;
-      const subFileName = fileNameWithoutExt + "." + ext;
-      const subFilePath = path.resolve(constants.path.default.outputPath, subFileName);
-
-      resultInfos.push({
-        videoFilePath: filePaths[i],
-        subFilePath,
-        subIdx
-      });
-    }
-    return resultInfos;
   }
 
   private getInputQuestion() {
