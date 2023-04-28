@@ -1,3 +1,3 @@
-import c from "./constants";
+import constants from "./config/constants";
 
-export const constants = c;
+export {constants};

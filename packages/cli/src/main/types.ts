@@ -1,9 +1,7 @@
-import {Stats} from "fs";
-import {SubInfo} from "extractor";
-
-export interface State {
-  fileStats: Stats | null,
-  infos: SubInfo[] | null
+export interface ResultInfo {
+  videoFilePath: string,
+  subFilePath: string,
+  subIdx: number,
 }
 
 export interface Answers {

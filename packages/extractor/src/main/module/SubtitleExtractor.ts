@@ -1,32 +1,35 @@
-import exec from "./exec";
 import {constants} from "common";
-import {SubInfo} from "../types";
+import SubInfo from "../domain/SubInfo";
+import CommandExecutor from "./CommandExecutor";
 
-export default class FFmpeg {
+export default class SubtitleExtractor {
 
+  private executor = new CommandExecutor();
   private ffmpegPath: string = constants.path.ffmpeg;
 
   async healthCheck() {
-    return exec(`${this.ffmpegPath} -h`);
+    return this.executor.exec(`${this.ffmpegPath} -h`);
   }
 
-  async genSub(videoPath: string, subIdx: number, subPath: string) {
-    return exec(`${this.ffmpegPath} -i ${videoPath} -map 0:s:${subIdx} ${subPath}`);
+  async genFileSub(videoPath: string, subIdx: number, subPath: string) {
+    return this.executor.exec(`${this.ffmpegPath} -i "${videoPath}" -map 0:s:${subIdx} "${subPath}"`);
   }
 
-  async getInfo(videoPath: string): Promise<SubInfo[]> {
+  async getFileInfo(videoPath: string): Promise<SubInfo[]> {
     const { stderr: rawStr } = await this.getInfoString(videoPath);
 
     return rawStr
       .replace(/ /gi, "")
       .split("Stream#")
       .filter(chunk => chunk.includes("Subtitle:"))
-      .map((chunk, index) => ({
-        subIdx: index,
-        ext: this.getExt(chunk),
-        title: this.getTitle(chunk),
-        rawStr: chunk
-      }));
+      .map((chunk, index) =>
+        new SubInfo(
+          index,
+          this.getExt(chunk),
+          this.getTitle(chunk),
+          chunk
+        )
+      );
   }
 
   private getExt(subInfo: string) {
@@ -47,6 +50,6 @@ export default class FFmpeg {
   }
 
   private async getInfoString(videoPath: string) {
-    return exec(`${this.ffmpegPath} -i ${videoPath}`);
+    return this.executor.exec(`"${this.ffmpegPath}" -i "${videoPath}"`);
   }
 }

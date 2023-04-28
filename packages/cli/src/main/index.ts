@@ -1,7 +1,7 @@
-import CliManager from "./CliManager";
+import CLIManager from "./module/CLIManager";
 
 async function main() {
-  const cli = new CliManager();
+  const cli = new CLIManager();
   await cli.run();
 }
 

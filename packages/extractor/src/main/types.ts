@@ -6,9 +6,3 @@ export interface ExecResult {
   stderr: string
 }
 
-export interface SubInfo {
-  subIdx: number,
-  ext: string,
-  title: string,
-  rawStr: string
-}
