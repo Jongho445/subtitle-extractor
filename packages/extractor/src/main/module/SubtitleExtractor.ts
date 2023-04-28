@@ -1,6 +1,7 @@
 import {constants} from "common";
 import SubInfo from "../domain/SubInfo";
 import CommandExecutor from "./CommandExecutor";
+import FileUtil from "common/dist/main/FileUtil";
 
 export default class SubtitleExtractor {
 
@@ -11,13 +12,30 @@ export default class SubtitleExtractor {
     return this.executor.exec(`${this.ffmpegPath} -h`);
   }
 
+  isSupported(videoPath: string): boolean {
+    return constants.support.video.includes(FileUtil.getExt(videoPath));
+  }
+
   async genFileSub(videoPath: string, subIdx: number, subPath: string) {
-    return this.executor.exec(`${this.ffmpegPath} -i "${videoPath}" -map 0:s:${subIdx} "${subPath}"`);
+    if (!this.isSupported(videoPath)) throw Error("this is not supported video file!");
+
+    const cmd = `${this.ffmpegPath} -i "${videoPath}" -map 0:s:${subIdx} "${subPath}"`;
+    return this.executor.exec(cmd);
   }
 
   async getFileInfo(videoPath: string): Promise<SubInfo[]> {
-    const { stderr: rawStr } = await this.getInfoString(videoPath);
+    if (!this.isSupported(videoPath)) throw Error("this is not supported video file!");
 
+    const { stderr: rawStr } = await this.getInfoString(videoPath);
+    return this.getSubInfo(rawStr);
+  }
+
+  private async getInfoString(videoPath: string) {
+    const cmd = `"${this.ffmpegPath}" -i "${videoPath}"`;
+    return this.executor.exec(cmd);
+  }
+
+  private getSubInfo(rawStr: string) {
     return rawStr
       .replace(/ /gi, "")
       .split("Stream#")
@@ -47,9 +65,5 @@ export default class SubtitleExtractor {
       .split("\r\n")
       .filter(chunk => chunk.includes("title:"))[0]
       .split(":")[1]
-  }
-
-  private async getInfoString(videoPath: string) {
-    return this.executor.exec(`"${this.ffmpegPath}" -i "${videoPath}"`);
   }
 }

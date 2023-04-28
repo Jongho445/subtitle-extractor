@@ -26,6 +26,8 @@ export default class CLIManager {
     for (let i = 0; i < fileNames.length; i++) {
       const fileNameWithoutExt = fileNames[i].split(".")[0];
       const ext = infosList[i][subIdx].ext;
+      if (!constants.support.subtitle.includes(ext)) throw Error("this is not supported subtitle ext")
+
       const subFileName = fileNameWithoutExt + "." + ext;
       const subFilePath = path.resolve(constants.path.default.outputPath, subFileName);
 

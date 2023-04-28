@@ -16,4 +16,8 @@ export default {
     assets: path.resolve(rootPath, "assets"),
     ffmpeg: path.resolve(rootPath, "assets", "ffmpeg", "ffmpeg.exe")
   },
+  support: {
+    video: ["mkv", "mp4"],
+    subtitle: ["ass"]
+  }
 }

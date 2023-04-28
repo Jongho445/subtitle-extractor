@@ -5,6 +5,7 @@ import fs from "fs-extra";
 import path from "path";
 import {SubInfo, SubtitleExtractor} from "extractor";
 import {Stats} from "fs";
+import FileUtil from "common/dist/main/FileUtil";
 
 export default class PromptExecutor {
 
@@ -46,7 +47,12 @@ export default class PromptExecutor {
       name: "subtitle",
       message: "choice subtitle",
       choices: async (answers: Answers) => {
-        self.fileNames = await fs.readdir(answers.path);
+        self.fileNames = await fs
+          .readdir(answers.path)
+          .then(fileNames => fileNames.filter(fileName => {
+            const ext = FileUtil.getExt(fileName);
+            return constants.support.video.includes(ext);
+          }));
         self.filePaths = self.fileNames.map(filename => path.resolve(answers.path, filename))
         self.infosList = await this.getInfosList(self.filePaths);
 
