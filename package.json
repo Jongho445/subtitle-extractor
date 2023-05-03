@@ -4,8 +4,9 @@
   "description": "",
   "main": "src/main/index.ts",
   "scripts": {
-    "start": "ts-node src/main/index.ts",
-    "build": "lerna run build"
+    "dev": "ts-node src/main/index.ts",
+    "start": "node dist/main/index.js",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
