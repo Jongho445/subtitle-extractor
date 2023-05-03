@@ -1,7 +1,7 @@
 import {it} from "@jest/globals";
 import path from "path";
-import {constants} from "common";
-import SubtitleExtractor from "../main/module/SubtitleExtractor";
+import {constants} from "../common";
+import SubtitleExtractor from "../../main/extractor/module/SubtitleExtractor";
 
 it("test", async () => {
   const ffmpeg = new SubtitleExtractor();

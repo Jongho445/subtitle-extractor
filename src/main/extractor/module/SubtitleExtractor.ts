@@ -1,7 +1,7 @@
-import {constants} from "common";
 import SubInfo from "../domain/SubInfo";
 import CommandExecutor from "./CommandExecutor";
-import FileUtil from "common/dist/main/FileUtil";
+import constants from "../../common/constants";
+import FileUtil from "../../common/FileUtil";
 
 export default class SubtitleExtractor {
 

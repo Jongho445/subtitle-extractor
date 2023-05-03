@@ -1,4 +1,4 @@
-import CLIManager from "./module/CLIManager";
+import CLIManager from "./cli/CLIManager";
 
 async function main() {
   const cli = new CLIManager();

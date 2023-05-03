@@ -1,9 +1,9 @@
-import {SubtitleExtractor} from "extractor";
 import fs from "fs-extra";
-import {constants} from "common";
 import PromptExecutor from "./PromptExecutor";
-import {Answers, ResultInfo} from "../types";
+import {Answers, ResultInfo} from "./types";
 import path from "path";
+import constants from "../common/constants";
+import SubtitleExtractor from "../extractor/module/SubtitleExtractor";
 
 export default class CLIManager {
 

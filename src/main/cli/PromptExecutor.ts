@@ -1,11 +1,12 @@
-import {Answers} from "../types";
+import {Answers} from "./types";
 import inquirer from "inquirer";
-import {constants} from "common";
 import fs from "fs-extra";
 import path from "path";
-import {SubInfo, SubtitleExtractor} from "extractor";
 import {Stats} from "fs";
-import FileUtil from "common/dist/main/FileUtil";
+import constants from "../common/constants";
+import FileUtil from "../common/FileUtil";
+import SubtitleExtractor from "../extractor/module/SubtitleExtractor";
+import SubInfo from "../extractor/domain/SubInfo";
 
 export default class PromptExecutor {
 

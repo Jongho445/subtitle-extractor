@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs-extra";
 
-const rootPath = path.resolve(__dirname, "..", "..", "..", "..", "..");
+const rootPath = path.resolve(__dirname, "..", "..", "..");
 const jsonPath = path.resolve(rootPath, "assets", "config", "config.json");
 const config = fs.readJsonSync(jsonPath);
 
