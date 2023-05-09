@@ -1,45 +1,46 @@
+import {MatchArray} from "xregexp";
 import SubInfo from "../domain/SubInfo";
-import XRegExp, {MatchArray} from "xregexp";
+import RawStreamData from "../domain/RawStreamData";
+import RegexUtil from "../../common/RegexUtil";
 
 export default class FFmpegParser {
 
-  getSubInfo(rawStr: string) {
-    return rawStr
-      .replace(/ /gi, "")
-      .split("Stream#")
-      .filter(chunk => chunk.includes("Subtitle:"))
-      .map((chunk, index) =>
-        new SubInfo(
-          index,
-          this.getExt(chunk),
-          this.getTitle(chunk),
-          chunk
-        )
-      );
+  getSubInfos(fullRawString: string): SubInfo[] {
+    // Stream #0:4(eng): Subtitle: ass (default)
+    const regex = /stream.*#\d*:(\d*).*?:(.*?):(.*?)$/gim
+    const streamHeaderMatches = RegexUtil.findAll(regex, fullRawString);
+    return this
+      .getRawStreamDataList(fullRawString, streamHeaderMatches)
+      .filter(stream => stream.isTypeOf("subtitle"))
+      .map(subtitleStream => SubInfo.of(subtitleStream));
   }
 
-  private getExt(subInfo: string) {
-    return subInfo
-      .replace(/ /gi, "")
-      .split("Subtitle:")[1]
-      .split("\r\n")[0]
-      .replace("(default)", "");
-  }
+  private getRawStreamDataList(fullRawString: string, streamHeaderMatches: MatchArray[]): RawStreamData[] {
+    const result: RawStreamData[] = [];
 
-  private getTitle(subInfo: string) {
-    return subInfo
-      .replace(/ /gi, "")
-      .split("Metadata:")[1]
-      .split("\r\n")
-      .filter(chunk => chunk.includes("title:"))[0]
-      .split(":")[1]
-  }
+    for (let i = 0; i < streamHeaderMatches.length - 1; i++) {
+      const curMatch = streamHeaderMatches[i];
+      const nextMatch = streamHeaderMatches[i + 1];
 
-  private findAllMatchArrays(regex: RegExp, input: string): MatchArray[] {
-    const result: MatchArray[] = [];
-    XRegExp.forEach(input, regex, (matchArray: MatchArray) => {
-      result.push(matchArray)
-    });
+      const streamRawString = fullRawString.substring(curMatch.index, nextMatch.index)
+      result.push(this.toRawStreamData(curMatch, streamRawString));
+    }
+
+    const lastMatchArray = streamHeaderMatches[streamHeaderMatches.length - 1]
+    const lastStreamRawString = fullRawString.substring(lastMatchArray.index, fullRawString.length);
+    const lastRawStreamData = this.toRawStreamData(lastMatchArray, lastStreamRawString);
+    result.push(lastRawStreamData);
+
     return result;
+  }
+
+  private toRawStreamData(matchArray: MatchArray, streamRawString: string) {
+    return new RawStreamData(
+        Number(matchArray[1].trim()),
+        matchArray[2].trim(),
+        matchArray[3].trim(),
+        matchArray[0].trim(),
+        streamRawString.trim()
+      )
   }
 }
