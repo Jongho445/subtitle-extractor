@@ -22,16 +22,33 @@ export default class FFmpegParser {
       const curMatch = streamHeaderMatches[i];
       const nextMatch = streamHeaderMatches[i + 1];
 
-      const streamRawString = fullRawString.substring(curMatch.index, nextMatch.index)
+      const streamRawString = fullRawString.substring(
+        this.getIndexOf(curMatch),
+        this.getIndexOf(nextMatch)
+      )
       result.push(this.toRawStreamData(curMatch, streamRawString));
     }
 
     const lastMatchArray = streamHeaderMatches[streamHeaderMatches.length - 1]
-    const lastStreamRawString = fullRawString.substring(lastMatchArray.index, fullRawString.length);
+    const lastStreamRawString = fullRawString.substring(
+      this.getIndexOf(lastMatchArray),
+      fullRawString.length
+    );
     const lastRawStreamData = this.toRawStreamData(lastMatchArray, lastStreamRawString);
     result.push(lastRawStreamData);
 
     return result;
+  }
+
+  private getIndexOf(matchArray: MatchArray): number {
+    const index = matchArray.index;
+    if (index === undefined) {
+      console.log("MatchArray's index is null. MatchArray is")
+      console.log(matchArray);
+      throw Error("MatchArray's index is null");
+    } else {
+      return index;
+    }
   }
 
   private toRawStreamData(matchArray: MatchArray, streamRawString: string) {
