@@ -2,6 +2,7 @@ import {MatchArray} from "xregexp";
 import SubInfo from "../domain/SubInfo";
 import RawStreamData from "../domain/RawStreamData";
 import RegexUtil from "../../common/RegexUtil";
+import logger from "../../common/logger";
 
 export default class FFmpegParser {
 
@@ -43,9 +44,10 @@ export default class FFmpegParser {
   private getIndexOf(matchArray: MatchArray): number {
     const index = matchArray.index;
     if (index === undefined) {
-      console.log("MatchArray's index is null. MatchArray is")
-      console.log(matchArray);
-      throw Error("MatchArray's index is null");
+      const errorMessage = "MatchArray's index is null."
+      logger.error(`${errorMessage} MatchArray is`)
+      logger.error(matchArray);
+      throw Error(errorMessage);
     } else {
       return index;
     }

@@ -11,7 +11,7 @@ export default class FFmpegExecutor {
   }
 
   async genFileSub(videoPath: string, subIdx: number, subPath: string): Promise<ExecResult> {
-    const cmd = `"${this.ffmpegPath}" -i "${videoPath}" -map 0:s:${subIdx} "${subPath}"`;
+    const cmd = `"${this.ffmpegPath}" -i "${videoPath}" -map 0:${subIdx} "${subPath}"`;
     return this.exec(cmd);
   }
 

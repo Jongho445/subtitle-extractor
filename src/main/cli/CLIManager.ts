@@ -14,18 +14,20 @@ export default class CLIManager {
     const result = await promptExecutor.runPrompt();
     const answers = result as Answers;
 
-    const subIdx = Number(answers.subtitle.split(":")[0]);
-    const resultInfos = this.getResultInfos(promptExecutor, subIdx);
+    const chunks = answers.subtitle.split(":");
+    const listIdx = Number(chunks[0]);
+    const streamIdx = Number(chunks[1]);
+    const resultInfos = this.getResultInfos(promptExecutor, listIdx, streamIdx);
 
     await this.genSubFiles(resultInfos);
   }
 
-  private getResultInfos(promptExecutor: PromptExecutor, subIdx: number): ResultInfo[] {
-    const {fileNames, filePaths, infosList} = promptExecutor;
+  private getResultInfos(promptExecutor: PromptExecutor, listIdx: number, streamIdx: number): ResultInfo[] {
+    const {fileNames, filePaths, selectList} = promptExecutor;
     const resultInfos: ResultInfo[] = [];
     for (let i = 0; i < fileNames.length; i++) {
       const fileNameWithoutExt = fileNames[i].split(".")[0];
-      const ext = infosList[i][subIdx].ext;
+      const ext = selectList[i][listIdx].ext;
       if (!constants.support.subtitle.includes(ext)) throw Error("this is not supported subtitle ext")
 
       const subFileName = fileNameWithoutExt + "." + ext;
@@ -34,7 +36,7 @@ export default class CLIManager {
       resultInfos.push({
         videoFilePath: filePaths[i],
         subFilePath,
-        subIdx
+        streamIdx
       });
     }
     return resultInfos;
@@ -44,8 +46,8 @@ export default class CLIManager {
     await fs.ensureDir(constants.path.default.outputPath);
 
     for (const resultInfo of resultInfos) {
-      const {videoFilePath, subIdx, subFilePath} = resultInfo;
-      await this.extractor.genFileSub(videoFilePath, subIdx, subFilePath);
+      const {videoFilePath, streamIdx, subFilePath} = resultInfo;
+      await this.extractor.genFileSub(videoFilePath, streamIdx, subFilePath);
     }
   }
 }

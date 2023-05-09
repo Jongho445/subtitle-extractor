@@ -1,11 +1,12 @@
 import RawStreamData from "./RawStreamData";
+import logger from "../../common/logger";
 
 export default class SubInfo {
 
   constructor(
-    readonly subIdx: number,
+    readonly streamIdx: number,
     readonly ext: string,
-    readonly title: string,
+    readonly title: string | null,
     readonly rawStreamData: RawStreamData,
   ) {}
 
@@ -15,9 +16,13 @@ export default class SubInfo {
       .replace("(default)", "")
       .trim()
 
-    const title = rawStreamData.getTitle()
+    const title = rawStreamData.getTitle();
 
-    if (title == null) throw Error(`title is null, header is ${rawStreamData.headerRawString}`)
+    if (title == null) {
+      const errorMessage = `title is null, header is ${rawStreamData.headerRawString}`;
+      logger.warning(errorMessage);
+      logger.warning(rawStreamData.streamRawString, true);
+    }
 
     return new SubInfo(
       rawStreamData.streamIndex,
@@ -28,9 +33,12 @@ export default class SubInfo {
   }
 
   equals(subInfo: SubInfo) {
-    if (subInfo.subIdx !== this.subIdx) return false;
+    if (subInfo.title !== this.title) {
+      logger.warning(`SubInfo's title is not equals!, ${this.title}, ${subInfo.title}`);
+    }
+
+    if (subInfo.streamIdx !== this.streamIdx) return false;
     else if (subInfo.ext !== this.ext) return false;
-    else if (subInfo.title !== this.title) return false;
     else return true;
   }
 }

@@ -10,6 +10,6 @@ it("extractor test", async () => {
 
   const extractor = new SubtitleExtractor();
   const infos = await extractor.getFileInfo(videoPath);
-  const result = await extractor.genFileSub(videoPath, 0, subPath);
+  const result = await extractor.genFileSub(videoPath, infos[0].streamIdx, subPath);
   console.log(infos);
 });
