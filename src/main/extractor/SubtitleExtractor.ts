@@ -1,8 +1,8 @@
 import SubInfo from "./domain/SubInfo";
 import constants from "../common/constants";
 import FileUtil from "../common/FileUtil";
-import FFmpegParser from "./parser/FFmpegParser";
 import FFmpegExecutor from "./parser/FFmpegExecutor";
+import FFmpegParser from "./parser/FFmpegParser";
 
 export default class SubtitleExtractor {
 
@@ -17,7 +17,7 @@ export default class SubtitleExtractor {
     if (!this.isSupported(videoPath)) throw Error("this is not supported video file!");
 
     const execResult = await this.executor.getInfoString(videoPath);
-    return this.parser.getSubInfo(execResult.getText());
+    return this.parser.getSubInfos(execResult.getText());
   }
 
   async genFileSub(videoPath: string, subIdx: number, subPath: string) {
