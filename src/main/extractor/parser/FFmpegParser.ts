@@ -1,4 +1,5 @@
 import SubInfo from "../domain/SubInfo";
+import XRegExp, {MatchArray} from "xregexp";
 
 export default class FFmpegParser {
 
@@ -32,5 +33,13 @@ export default class FFmpegParser {
       .split("\r\n")
       .filter(chunk => chunk.includes("title:"))[0]
       .split(":")[1]
+  }
+
+  private findAllMatchArrays(regex: RegExp, input: string): MatchArray[] {
+    const result: MatchArray[] = [];
+    XRegExp.forEach(input, regex, (matchArray: MatchArray) => {
+      result.push(matchArray)
+    });
+    return result;
   }
 }
