@@ -3,7 +3,7 @@ import PromptExecutor from "./PromptExecutor";
 import {Answers, ResultInfo} from "./types";
 import path from "path";
 import constants from "../common/constants";
-import SubtitleExtractor from "../extractor/module/SubtitleExtractor";
+import SubtitleExtractor from "../extractor/SubtitleExtractor";
 
 export default class CLIManager {
 

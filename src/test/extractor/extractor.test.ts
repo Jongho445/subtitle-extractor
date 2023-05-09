@@ -1,6 +1,6 @@
 import {it} from "@jest/globals";
 import path from "path";
-import SubtitleExtractor from "../../main/extractor/module/SubtitleExtractor";
+import SubtitleExtractor from "../../main/extractor/SubtitleExtractor";
 import constants from "../../main/common/constants";
 
 it("test", async () => {

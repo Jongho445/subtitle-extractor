@@ -1,7 +1,7 @@
-import SubInfo from "../domain/SubInfo";
-import constants from "../../common/constants";
-import FileUtil from "../../common/FileUtil";
-import FFmpegParser from "./FFmpegParser";
+import SubInfo from "./domain/SubInfo";
+import constants from "../common/constants";
+import FileUtil from "../common/FileUtil";
+import FFmpegParser from "./parser/FFmpegParser";
 
 export default class SubtitleExtractor {
 

@@ -5,7 +5,7 @@ import path from "path";
 import {Stats} from "fs";
 import constants from "../common/constants";
 import FileUtil from "../common/FileUtil";
-import SubtitleExtractor from "../extractor/module/SubtitleExtractor";
+import SubtitleExtractor from "../extractor/SubtitleExtractor";
 import SubInfo from "../extractor/domain/SubInfo";
 
 export default class PromptExecutor {
