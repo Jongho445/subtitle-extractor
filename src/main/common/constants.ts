@@ -1,7 +1,8 @@
 import path from "path";
 import fs from "fs-extra";
 
-const rootPath = path.resolve(__dirname, "..", "..", "..");
+const projectName = "subtitle-extractor"
+const rootPath = __dirname.split(projectName)[0] + projectName;
 const jsonPath = path.resolve(rootPath, "assets", "config", "config.json");
 const config = fs.readJsonSync(jsonPath);
 

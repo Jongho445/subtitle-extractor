@@ -4,3 +4,4 @@ dist
 /assets/ffmpeg
 /assets/config/config.json
 /result
+/src/test/extractor/asset/*
